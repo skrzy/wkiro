@@ -2,13 +2,24 @@ group 'wkiro'
 version '1.0-SNAPSHOT'
 
 apply plugin: 'java'
+apply plugin: 'application'
 
 sourceCompatibility = 1.8
 
+mainClassName = "wkiro.App"
+
 repositories {
     mavenCentral()
+    flatDir {
+        dirs 'lib'
+    }
+}
+
+getTasks().withType(JavaExec) {
+    systemProperty "java.library.path", "lib\\x64"
 }
 
 dependencies {
     testCompile group: 'junit', name: 'junit', version: '4.11'
+    compile name: 'opencv-320'
 }
