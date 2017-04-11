@@ -16,7 +16,7 @@ repositories {
 }
 
 getTasks().withType(JavaExec) {
-    systemProperty "java.library.path", "lib\\x64"
+    systemProperty "java.library.path", "lib/x64"
 }
 
 dependencies {

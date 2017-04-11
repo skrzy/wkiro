@@ -16,9 +16,9 @@ public class DetectFace {
         // Create a face detector from the cascade file in the resources
         // directory.
         CascadeClassifier faceDetector = new CascadeClassifier(getClass()
-                .getResource("/lbpcascade_frontalface.xml").getPath().substring(1));
+                .getResource("/lbpcascade_frontalface.xml").getPath());
         Mat image = Imgcodecs.imread(getClass().getResource(
-                "/AverageMaleFace.jpg").getPath().substring(1));
+                "/AverageMaleFace.jpg").getPath());
 
         // Detect faces in the image.
         // MatOfRect is a special container class for Rect.
