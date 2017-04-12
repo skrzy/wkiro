@@ -8,6 +8,6 @@ Projekt buduje się i uruchamia poleceniem
 lub na linuxie
 > ./gradlew run
 
-Pierwsze urucomienie może trochę potrwać - musi pobrać się gradle (~70mb).
+Pierwsze uruchomienie może trochę potrwać - musi pobrać się gradle (~70mb).
 
 ![alt text](/temat.jpg "Title")
