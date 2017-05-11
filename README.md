@@ -11,3 +11,8 @@ lub na linuxie
 Pierwsze uruchomienie może trochę potrwać - musi pobrać się gradle (~70mb).
 
 ![alt text](/temat.jpg "Title")
+
+Przydatne linki:
+https://pythonprogramming.net/haar-cascade-object-detection-python-opencv-tutorial/
+http://www.docs.opencv.org/master/d7/d8b/tutorial_py_face_detection.html
+http://www.docs.opencv.org/master/dc/d88/tutorial_traincascade.html
