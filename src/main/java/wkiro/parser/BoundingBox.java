@@ -16,12 +16,17 @@ public class BoundingBox {
 
     public String toString(double scaleX, double scaleY) {
 
+        int xMinFinal = (int) (xMin * scaleX);
+        int yMinFinal = (int) (yMin * scaleY);
+        int xMaxFinal = (int) (xMax * scaleX);
+        int yMaxFinal = (int) (yMax * scaleY);
+
         return String.format(
                 "%d %d %d %d",
-                (int) (xMin * scaleX),
-                (int) (yMin * scaleY),
-                (int) (xMax * scaleX),
-                (int) (yMax * scaleY)
+                xMinFinal,
+                yMinFinal,
+                xMaxFinal - xMinFinal,
+                yMaxFinal - yMinFinal
         );
     }
 }

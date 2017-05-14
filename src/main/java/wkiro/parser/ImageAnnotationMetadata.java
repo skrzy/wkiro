@@ -102,7 +102,9 @@ public class ImageAnnotationMetadata {
     }
 
     private static Path getRelativePath(Path originalPath) {
-        return originalPath.subpath(1, originalPath.getNameCount());
+        Path fileDir = originalPath.subpath(1, originalPath.getNameCount() - 1);
+        String fileName = originalPath.getFileName().toString().replace(".txt", ".jpg");
+        return fileDir.resolve(fileName);
     }
 
     private static int getNextNumberInLine(Matcher matcher) throws Exception {
@@ -116,7 +118,7 @@ public class ImageAnnotationMetadata {
     @Override
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
-        stringBuilder.append(this.path);
+        stringBuilder.append(this.path.toString().replace("\\", "/"));
 
         if (this.isPositive()) {
             stringBuilder.append(" ");
