@@ -123,7 +123,7 @@ public class ImageAnnotationMetadata {
 
         if (this.isPositive()) {
             stringBuilder.append(" ");
-            stringBuilder.append(this.objects.size());
+            stringBuilder.append(1);
             stringBuilder.append(" ");
             stringBuilder.append(getMainObject().orElseThrow(() -> new RuntimeException("No objects found")).toString(
                     PROCESSED_IMAGE_WIDTH / (double) this.width,
