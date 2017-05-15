@@ -32,12 +32,12 @@ public class CascadeDetect {
 
 		int numberOfCascades = 1;// listOfFiles.length;
 
-		for (int i = 1; i < numberOfCascades + 1; i++) {
+		for (int i = numberOfCascades; i < numberOfCascades + 1; i++) {
 			System.out.println(System.getProperty("user.dir") + " Cascade " + i);
 			carCascade = new CascadeClassifier("resources/cascades/" + i + "/cascade.xml");
 
 			try {
-				/*List<String> positiveImgFilelist = Files
+				List<String> positiveImgFilelist = Files
 						.readAllLines(Paths.get("resources/cascades/" + i + "/positive.txt"));
 				System.out.println("Testowanie pozytywnymi obrazami");
 				for (String posFile : positiveImgFilelist) {
@@ -48,14 +48,17 @@ public class CascadeDetect {
 					carCascade.detectMultiScale(img, cars);
 
 					List<Rect> expectedRects = new ArrayList<Rect>();
-					for (int j = 2; j < 2 + 4 * (Integer.parseInt(arguments[1]) - 1); j += 4) {
+					for (int j = 2; j < 2 + 4 * (Integer.parseInt(arguments[1])); j += 4) {
 						expectedRects.add(new Rect(
 								new Point(Integer.parseInt(arguments[j]), Integer.parseInt(arguments[j + 1])),
 								new Point(Integer.parseInt(arguments[j]) + Integer.parseInt(arguments[j + 2]),
 										Integer.parseInt(arguments[j + 1]) + Integer.parseInt(arguments[j + 3]))));
 					}
 					boolean[] expectedFound = new boolean[expectedRects.size()];
-
+					//if(arguments[0].equals("cars/0104.jpg"))
+					//{
+						System.out.println(arguments[0]);
+					//}
 					for (Rect carRect : cars.toArray()) {
 						boolean found = false;
 						for (int j = 0; j < expectedRects.size(); j++) {
@@ -63,11 +66,24 @@ public class CascadeDetect {
 								continue;
 
 							if (areSameEnough(expectedRects.get(j), carRect))
+							{
+								expectedFound[j]=true;
 								found = true;
+							}
 						}
 						if (!found)
 							FP++;
 					}
+					
+					for(Rect r : cars.toList())
+					{
+						Imgproc.rectangle(img, r.tl(), r.br(), new Scalar(255, 0, 0), 1);
+					}
+					for(Rect r : expectedRects)
+					{
+						Imgproc.rectangle(img, r.tl(), r.br(), new Scalar(0, 0, 255), 1);
+					}
+					Imgcodecs.imwrite(arguments[0], img);
 
 					for (int j = 0; j < expectedFound.length; j++) {
 						if (expectedFound[j])
@@ -75,7 +91,7 @@ public class CascadeDetect {
 						else
 							FN++;
 					}
-				}*/
+				}
 				System.out.println("Testowanie negatywnymi obrazami");
 				List<String> negativeImgFilelist = Files
 						.readAllLines(Paths.get("resources/cascades/" + i + "/negative.txt"));
@@ -111,14 +127,22 @@ public class CascadeDetect {
 	}
 
 	private boolean areSameEnough(Rect rectExpected, Rect rectCalculated) {
+		System.out.println("Expected "+ rectExpected.toString());
+		System.out.println("Calculated "+ rectCalculated.toString());
+		
 		int Xtolerance = (int) (tolerance * (double) rectExpected.width + 1.0);
 		int Ytolerance = (int) (tolerance * (double) rectExpected.height + 1.0);
-		return Math.abs(rectCalculated.x - rectExpected.x) < Xtolerance
+		
+		System.out.println("Xtolerance "+ Xtolerance);
+		System.out.println("Ytolerance "+ Ytolerance);
+		
+		boolean b = Math.abs(rectCalculated.x - rectExpected.x) < Xtolerance
 				&& Math.abs(rectCalculated.y - rectExpected.y) < Ytolerance
-				&& Math.abs(rectCalculated.x + rectCalculated.width - rectExpected.x + rectExpected.width) < Xtolerance
+				&& Math.abs((rectCalculated.x + rectCalculated.width) - (rectExpected.x + rectExpected.width)) < Xtolerance
 				&& Math.abs(
-						rectCalculated.y + rectCalculated.height - rectExpected.y + rectExpected.height) < Ytolerance;
-
+						(rectCalculated.y + rectCalculated.height) - (rectExpected.y + rectExpected.height)) < Ytolerance;
+		System.out.println(b+"");
+		return b;
 	}
 
 }
