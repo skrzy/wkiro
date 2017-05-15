@@ -6,6 +6,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -123,15 +124,18 @@ public class ImageAnnotationMetadata {
         if (this.isPositive()) {
             stringBuilder.append(" ");
             stringBuilder.append(this.objects.size());
-            for (BoundingBox object : objects) {
-                stringBuilder.append(" ");
-                stringBuilder.append(object.toString(
-                        PROCESSED_IMAGE_WIDTH / (double) this.width,
-                        PROCESSED_IMAGE_HEIGHT / (double) this.height
-                ));
-            }
+            stringBuilder.append(" ");
+            stringBuilder.append(getMainObject().orElseThrow(() -> new RuntimeException("No objects found")).toString(
+                    PROCESSED_IMAGE_WIDTH / (double) this.width,
+                    PROCESSED_IMAGE_HEIGHT / (double) this.height
+            ));
+
         }
 
         return stringBuilder.toString();
+    }
+
+    private Optional<BoundingBox> getMainObject() {
+        return objects.stream().reduce((a, b) -> a.getArea() > b.getArea() ? a : b);
     }
 }

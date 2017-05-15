@@ -29,4 +29,8 @@ public class BoundingBox {
                 yMaxFinal - yMinFinal
         );
     }
+
+    public int getArea() {
+        return (xMax - xMin) * (yMax - yMin);
+    }
 }
